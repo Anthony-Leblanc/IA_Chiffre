@@ -18,3 +18,5 @@ Ce fichier est le fichier d'en-tête du fichier "csv_image.c".
 
 
 char* getLine(FILE* file);
+unsigned int parametersImages(FILE* file, int* width, int* height);
+int loadImage(char* out, int width, int height, FILE* file);

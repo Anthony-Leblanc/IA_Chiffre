@@ -14,12 +14,12 @@ Ce fichier est le programme contenant les fonctions de manipulation des fichiers
 */
 
 
-#include <stdio.h>    /*FILE, fgets, puts*/
-#include <string.h>   /*strlen, strcpy*/
-#include <stdlib.h>   /*realloc*/
-
+#include <stdio.h>    /*FILE, fgets, puts, rewind*/
+#include <string.h>   /*strlen, strcpy, strtok*/
+#include <stdlib.h>   /*realloc, free, exit, calloc*/
 
 #include "csv_image.h"
+
 
 // Fonction permettant de lire dans le fichier file l'intégralité d'une ligne et de la retourner dans un tableau de caractères alloué dynamiquement
 char* getLine(FILE* file)
@@ -54,27 +54,66 @@ char* getLine(FILE* file)
   }
 
   return str;
+}
 
+
+// Fonction permettant d'enregistrer les paramètres que la première ligne du fichier csv donne : Nbr Images;Largeur;Hauteur
+unsigned int parametersImages(FILE* file, int* width, int* height)
+{
+  rewind(file); // On s'assure qu'on se trouve bien au début du fichier
+
+  char* str = NULL, * pch = NULL;
+  unsigned int nbrImages = 0;
+
+  str = getLine(file); printf("\nLa ligne : %s\n", str);
   
+  pch = strtok(str, ";");
 
-  /*
-  Fonction getLine
-Pseudo code d'une fonction char *getLine(FILE *file) permettant de lire dans le fichier file l'intégralité d'une ligne et de la retourner dans un tableau de caractères alloué dynamiquement:
+  nbrImages = atoi(pch);  pch = strtok(NULL, ";");
+  *width = atoi(pch);     pch = strtok(NULL, ";");
+  *height = atoi(pch);
 
-on déclare un pointeur vers un caractère, str, initialisé à NULL
-on déclare une taille initialisée à 0
-on déclare un chaîne de caractère de taille fixe et vide, le buffer
-tant que l'appel à fgets pour remplir le buffer depuis le fichier n'est pas NULL
- on calcule la taille de la chaine mise dans buffer
-on réalloue au pointeur str une nouvelle taille
-on copie à la fin de la chaine str le buffer
-on incrémente la variable taille
-si le dernier caractère de str est '\n'
-on le remplace par '\0' (fin de chaîne)
-on quite la boucle
-on retourne le pointeur str
-Indication supplémentaire: la fin de la chaine str se trouve à l'adresse: str+strlen(str)
+  return nbrImages;
+}
 
-Modifié le: vendredi 2 avril 2021, 09:57
-  */
+
+// Fonction permettant de charger l'image dans un tableau tout en donnant la valeur de l'entier de l'image
+int loadImage(char* out, int width, int height, FILE* file)
+{
+  int number = 0, pixel = 0, size_image = 0, index_image = 0;
+  char* pImage = NULL, * str = NULL, * pch = NULL;
+
+  size_image = width * height;
+
+  pImage = (char*)calloc(size_image, sizeof(char));
+
+  if (pImage == NULL)
+  {
+    puts("Error (re)allocating memory");
+    exit(1);
+  }
+
+  str = getLine(file);
+
+  pch = strtok(str, ";");
+  number = atoi(pch);
+
+  do
+  {
+    pch = strtok(NULL, ";");
+    pixel = atoi(pch);
+
+    if (pixel == 0) // S'il y a un 0 alors le chiffre qui suit est le nombre d'occurence de ce 0
+    {
+      pch = strtok(NULL, ",");
+      for (int i = 0; i < atoi(pch); i++)
+        pImage[index_image + i] = pixel;
+    }
+    else
+      pImage[index_image] = pixel;
+
+    index_image++;
+  } while (pch != NULL);
+
+  return number;
 }

@@ -21,11 +21,14 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 
 
 void test_GetLine(void);
+void test_parametersImages(void);
+void test_loadImage(void);
 
 
 int main(int argc, char argv[])
 {
-  test_GetLine();
+  //test_GetLine(); // Fonctionne comme souhaité
+  //test_parametersImages(); // Fonctionne comme souhaité
 
   return EXIT_SUCCESS;
 }
@@ -52,6 +55,35 @@ void test_GetLine(void)
 
   ligne = getLine(stream);
 
+  fclose(stream);
+
   printf("\nVoici la ligne du fichier :\n%s\n\n", ligne);
   printf("ICI");
+}
+
+// Fonction de test de la fonction parametersImages
+void test_parametersImages(void)
+{
+  FILE* stream = NULL;
+
+  stream = fopen("images_data.csv", "r");
+
+  if (stream == NULL)
+  {
+    puts("Error openning stream");
+    exit(1);
+  }
+
+  int width = 0, height = 0;
+  unsigned int nbrImages = parametersImages(stream, &width, &height);
+
+  fclose(stream);
+
+  printf("\nIl y a %d images de largeur : %d, et de longueur : %d\n", nbrImages, width, height);
+}
+
+// Fonction de test de la fonction loadImage
+void test_loadImage(void)
+{
+
 }
