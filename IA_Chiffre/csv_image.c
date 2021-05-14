@@ -16,7 +16,8 @@ Ce fichier est le programme contenant les fonctions de manipulation des fichiers
 
 #include <stdio.h>    /*FILE, fgets, strlen, puts, strcat*/
 #include <string.h>   /*strlen, strcar*/
-#include <stdint.h>   /**/
+#include <stdlib.h>   /*realloc*/
+
 
 #include "csv_image.h"
 
@@ -44,7 +45,7 @@ char* getLine(FILE* file)
       exit(1);
     }
 
-    strcat(str[taille], buffer);
+    strcat(str + strlen(str), buffer);
     taille++;
 
     if (str[taille] == '\n')
