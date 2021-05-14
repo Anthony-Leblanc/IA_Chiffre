@@ -21,9 +21,15 @@
     <ClCompile Include="ia_chiffre.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="débutprojet.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="csv_image.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

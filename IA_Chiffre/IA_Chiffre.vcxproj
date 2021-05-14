@@ -140,10 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="csv_image.c" />
+    <ClCompile Include="débutprojet.c" />
     <ClCompile Include="ia_chiffre.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="csv_image.h" />
+    <ClInclude Include="reseau.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
