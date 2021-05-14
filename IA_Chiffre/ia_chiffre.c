@@ -6,7 +6,7 @@ Leblanc Anthony, Rousseau Alex
 Dernière modification : 07/05/2021
 
 Projet : Intelligence artificielle
-Le but de ce projet est d'�crire un logiciel permettant de lire et reconnaître des chiffres dans des images.
+Le but de ce projet est d'écrire un logiciel permettant de lire et reconnaître des chiffres dans des images.
 */
 
 /*
