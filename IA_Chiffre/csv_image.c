@@ -14,8 +14,8 @@ Ce fichier est le programme contenant les fonctions de manipulation des fichiers
 */
 
 
-#include <stdio.h>    /*FILE, fgets, strlen, puts, strcat*/
-#include <string.h>   /*strlen, strcar*/
+#include <stdio.h>    /*FILE, fgets, puts*/
+#include <string.h>   /*strlen, strcpy*/
 #include <stdlib.h>   /*realloc*/
 
 
@@ -24,7 +24,34 @@ Ce fichier est le programme contenant les fonctions de manipulation des fichiers
 // Fonction permettant de lire dans le fichier file l'intégralité d'une ligne et de la retourner dans un tableau de caractères alloué dynamiquement
 char* getLine(FILE* file)
 {
-  
+  char* str = NULL, * more_str = NULL;
+  char buffer[MAX_STR] = "";
+  unsigned int taille = 0;
+
+  while (fgets(buffer, MAX_STR, file) != NULL)
+  {
+    taille += strlen(buffer);
+    more_str = (char*)realloc(str, taille * sizeof(char));
+    
+    // Test de l'allocation
+    if (more_str != NULL) {
+      str = more_str;
+      str[taille] = '\0';
+    }
+    else {
+      free(str);
+      puts("Error (re)allocating memory");
+      exit(1);
+    }
+
+    strcpy(str + strlen(str) - strlen(buffer), buffer);
+
+    if (str[strlen(str) - 1] == '\n')
+    {
+      str[strlen(str) - 1] = '\0';
+      break;
+    }
+  }
 
   return str;
 
