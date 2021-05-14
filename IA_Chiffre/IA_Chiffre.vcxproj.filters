@@ -27,6 +27,9 @@
     <ClCompile Include="test_Antho.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="reseau.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="csv_image.h">
