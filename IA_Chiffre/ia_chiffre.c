@@ -44,7 +44,7 @@ void test_GetLine(void)
     exit(1);
   }
 
-  char ligne[];
+  char *ligne;
   ligne = getLine(stream);
 
   printf("\nVoici la ligne du fichier :\n%s\n\n", ligne);
