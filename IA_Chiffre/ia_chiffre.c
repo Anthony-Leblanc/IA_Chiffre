@@ -22,14 +22,14 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 
 void test_GetLine(void);
 
-
+/*
 int main(int argc, char argv[])
 {
   test_GetLine();
 
   return EXIT_SUCCESS;
 }
-
+*/
 
 // Fonction de test de la fonction GetLine
 void test_GetLine(void)
@@ -40,7 +40,7 @@ void test_GetLine(void)
 
   if (stream == NULL)
   {
-    puts("Error (re)allocating memory");
+    puts("Error openning stream");
     exit(1);
   }
 
@@ -48,4 +48,5 @@ void test_GetLine(void)
   ligne = getLine(stream);
 
   printf("\nVoici la ligne du fichier :\n%s\n\n", ligne);
+  printf("ICI");
 }

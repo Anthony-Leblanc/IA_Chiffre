@@ -29,7 +29,7 @@ char* getLine(FILE* file)
 
   while (fgets(buffer, MAX_STR, file) != NULL)
   {
-    taille = strlen(buffer);
+    taille += strlen(buffer);
     more_str = (char*)realloc(str, taille * sizeof(char));
 
     if (more_str != NULL) // Traitement après réallocation
