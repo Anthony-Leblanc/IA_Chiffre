@@ -142,6 +142,7 @@
     <ClCompile Include="csv_image.c" />
     <ClCompile Include="débutprojet.c" />
     <ClCompile Include="ia_chiffre.c" />
+    <ClCompile Include="reseau.c" />
     <ClCompile Include="test_Antho.c" />
   </ItemGroup>
   <ItemGroup>
