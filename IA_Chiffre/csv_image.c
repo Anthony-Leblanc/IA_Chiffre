@@ -24,36 +24,7 @@ Ce fichier est le programme contenant les fonctions de manipulation des fichiers
 // Fonction permettant de lire dans le fichier file l'intégralité d'une ligne et de la retourner dans un tableau de caractères alloué dynamiquement
 char* getLine(FILE* file)
 {
-  char* str = NULL, * more_str = NULL;
-  unsigned long taille = 0;
-  char buffer[MAX_STR];
-
-  while (fgets(buffer, MAX_STR, file) != NULL)
-  {
-    taille += strlen(buffer);
-    more_str = (char*)realloc(str, taille * sizeof(char));
-
-    if (more_str != NULL) // Traitement après réallocation
-    {
-      str = more_str;
-      str[strlen(str) - 1] = '\0';
-    }
-    else
-    {
-      free(str);
-      puts("Error (re)allocating memory");
-      exit(1);
-    }
-
-    strcat(str + strlen(str), buffer);
-    taille++;
-
-    if (str[taille] == '\n')
-    {
-      str[taille] = '\0';
-      break;
-    }
-  }
+  
 
   return str;
 
