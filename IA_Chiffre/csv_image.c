@@ -65,7 +65,7 @@ unsigned int parametersImages(FILE* file, int* width, int* height)
   char* str = NULL, * pch = NULL;
   unsigned int nbrImages = 0;
 
-  str = getLine(file); printf("\nLa ligne : %s\n", str);
+  str = getLine(file);
   
   pch = strtok(str, ";");
 
