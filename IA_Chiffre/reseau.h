@@ -9,8 +9,6 @@ Définition des structures des réseaux de neuronnes
 */
 
 
-
-
 typedef struct _NEURONE
 {
   unsigned int biais;
@@ -36,6 +34,6 @@ typedef struct _COUCHE
 }COUCHE;
 
 
-void printNEURONE(NEURONE neurone);
+void printNEURONE(NEURONE neurone,int n);
 unsigned int getBiais(NEURONE* neurone);
 unsigned int getWeight(NEURONE* neurone,int n);

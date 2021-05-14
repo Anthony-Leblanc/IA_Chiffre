@@ -5,12 +5,13 @@
 #include<stdio.h> /*printf*/
 
 
-void printNEURONE(NEURONE neurone)
+
+void printNEURONE(NEURONE neurone,int n) //affiche tout un neurone
 {
 
 	printf("Biais : %d Weight :", getBiais(&neurone));
 	int i = 0;
-	while (getWeight(&neurone, i) != "\0")
+	while (i < n )
 	{
 		printf("%d,", getWeight(&neurone, i));
 		i++;
@@ -19,12 +20,12 @@ void printNEURONE(NEURONE neurone)
 
 
 
-unsigned int getBiais(NEURONE* neurone)
+unsigned int getBiais(NEURONE* neurone) // obtient le biais d'un neurone 
 {
 	return neurone->biais;
 }
 
-unsigned int getWeight(NEURONE* neurone,int n)
+unsigned int getWeight(NEURONE* neurone,int n)// obtient weight position n d'un neurone.
 {
 	return neurone->weight[n];
 }

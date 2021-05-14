@@ -21,7 +21,7 @@
     <ClCompile Include="ia_chiffre.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="débutprojet.c">
+    <ClCompile Include="debutprojet.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="test_Antho.c">
