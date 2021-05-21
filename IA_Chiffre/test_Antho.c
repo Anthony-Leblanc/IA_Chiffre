@@ -34,7 +34,7 @@ int main(int argc, char argv[])
   //test_GetLine(); // Fonctionne comme souhaité
   //test_parametersImages(); // Fonctionne comme souhaité
   //test_loadImage(); // Fonctionne comme souhaité
-  //test_saveBMP(); // Fonctionne comme souhaité
+  test_saveBMP(); // Fonctionne comme souhaité
 
   return EXIT_SUCCESS;
 }
@@ -132,5 +132,5 @@ void test_saveBMP(void)
   unsigned char* image = NULL, number = 0;
 
   image = loadImage(&number, width, height, stream);
-  saveBMP(image, height, width, "test.png");
+  saveBMP(image, height, width, "test.bmp");
 }
