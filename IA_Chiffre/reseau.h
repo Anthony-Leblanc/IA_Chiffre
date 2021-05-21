@@ -1,5 +1,5 @@
 #pragma once
-// dernière modification 14/05/2021 Anthony Leblanc, Alex ROUSSEAU
+// dernière modification 21/05/2021 Anthony Leblanc, Alex ROUSSEAU
 
 /*
 Définition des structures des réseaux de neuronnes
@@ -26,6 +26,7 @@ typedef struct _LIST
 typedef struct _COUCHE
 {
   LIST neurone;
+  int nbrNeurone;
   struct _COUCHE* next;
   struct _COUCHE* prev;
   double **in;
@@ -34,6 +35,14 @@ typedef struct _COUCHE
 }COUCHE;
 
 
-void printNEURONE(NEURONE neurone,int n);
+void printNEURONE(NEURONE neurone, int taille);
 unsigned int getBiais(NEURONE* neurone);
-unsigned int getWeight(NEURONE* neurone,int n);
+unsigned int getWeight(NEURONE* neurone,int n);  
+int * initialiseWeight(int nbrNeurone);
+int getNbrNeurone(COUCHE* couche);
+NEURONE getNeurone(COUCHE* couche, int n);
+void setBiais(NEURONE* neurone, unsigned int biais);
+void setWeight(NEURONE* neurone, unsigned int weight, int n);
+void setNbrNeurone(COUCHE* couche, int nbrNeurone);
+void setNeurone(COUCHE* couche, int n, NEURONE neurone);
+void appendToList(LIST* liste, NEURONE neurone,int n); //en construction
