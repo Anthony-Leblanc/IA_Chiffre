@@ -143,11 +143,13 @@
     <ClCompile Include="debutprojet.c" />
     <ClCompile Include="ia_chiffre.c" />
     <ClCompile Include="reseau.c" />
+    <ClCompile Include="saveBMP.c" />
     <ClCompile Include="test_Antho.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="csv_image.h" />
     <ClInclude Include="reseau.h" />
+    <ClInclude Include="saveBMP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
