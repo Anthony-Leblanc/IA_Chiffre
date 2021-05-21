@@ -3,7 +3,7 @@
 /*
 Leblanc Anthony, Rousseau Alex
 
-Dernière modification : 07/05/2021
+Dernière modification : 21/05/2021
 
 Projet : Intelligence artificielle
 Le but de ce projet est d'écrire un logiciel permettant de lire et reconnaître des chiffres dans des images.
@@ -14,11 +14,9 @@ Ce fichier est le programme contenant les fonctions de manipulation des fichiers
 */
 
 
-#include <stdio.h>    /*FILE, fgets, puts, rewind*/
-#include <string.h>   /*strlen, strcpy, strtok*/
-#include <stdlib.h>   /*realloc, free, exit, calloc*/
 
 #include "csv_image.h"
+
 
 
 // Fonction permettant de lire dans le fichier file l'intégralité d'une ligne et de la retourner dans un tableau de caractères alloué dynamiquement
@@ -26,13 +24,14 @@ char* getLine(FILE* file)
 {
   char* str = NULL, * more_str = NULL;
   char buffer[MAX_STR] = "";
-  unsigned int taille = 0;
+  unsigned int taille = 0, tempo_taille = 0;
 
-  while (fgets(buffer, MAX_STR, file) != NULL)
+  while (fgets(buffer, MAX_STR - 1, file) != NULL)
   {
+    tempo_taille = taille;
     taille += strlen(buffer);
     more_str = (char*)realloc(str, taille * sizeof(char));
-    
+
     // Test de l'allocation
     if (more_str != NULL) {
       str = more_str;
@@ -44,11 +43,11 @@ char* getLine(FILE* file)
       exit(1);
     }
 
-    strcpy(str + strlen(str) - strlen(buffer), buffer);
+    strcpy(str + tempo_taille, buffer);
 
-    if (str[strlen(str) - 1] == '\n')
+    if (str[taille - 1] == '\n')
     {
-      str[strlen(str) - 1] = '\0';
+      str[taille - 1] = '\0';
       break;
     }
   }
@@ -58,7 +57,7 @@ char* getLine(FILE* file)
 
 
 // Fonction permettant d'enregistrer les paramètres que la première ligne du fichier csv donne : Nbr Images;Largeur;Hauteur
-unsigned int parametersImages(FILE* file, int* width, int* height)
+unsigned int parametersImages(FILE* file, unsigned int* width, unsigned int* height)
 {
   rewind(file); // On s'assure qu'on se trouve bien au début du fichier
 
@@ -78,42 +77,51 @@ unsigned int parametersImages(FILE* file, int* width, int* height)
 
 
 // Fonction permettant de charger l'image dans un tableau tout en donnant la valeur de l'entier de l'image
-int loadImage(char* out, int width, int height, FILE* file)
+unsigned char* loadImage(unsigned char *number, unsigned int width, unsigned int height, FILE* file)
 {
-  int number = 0, pixel = 0, size_image = 0, index_image = 0;
-  char* pImage = NULL, * str = NULL, * pch = NULL;
+  unsigned long size_image = 0, index_image = 0;
+  char* str = NULL, * pch = NULL, * pImage = NULL, pixel = 0;
 
   size_image = width * height;
-
-  pImage = (char*)calloc(size_image, sizeof(char));
-
+  pImage = (unsigned char*)calloc(size_image, sizeof(unsigned char));
   if (pImage == NULL)
   {
     puts("Error (re)allocating memory");
     exit(1);
   }
-
   str = getLine(file);
-
-  pch = strtok(str, ";");
-  number = atoi(pch);
-
+  pch = strtok(str, ",;");
+  if (pch == NULL)
+  {
+    puts("line error, number not encountered");
+    exit(1);
+  }
+  *number = atoi(pch);
   do
   {
-    pch = strtok(NULL, ";");
+    pch = strtok(NULL, ",;");
     pixel = atoi(pch);
-
     if (pixel == 0) // S'il y a un 0 alors le chiffre qui suit est le nombre d'occurence de ce 0
     {
-      pch = strtok(NULL, ",");
+      pch = strtok(NULL, ",;");
       for (int i = 0; i < atoi(pch); i++)
-        pImage[index_image + i] = pixel;
+      {
+        pImage[index_image] = pixel;
+        index_image++;
+      }
     }
     else
+    {
       pImage[index_image] = pixel;
+      index_image++;
+    }
+  } while ((pch != NULL) && (index_image < size_image - 1));
+  return pImage;
+}
 
-    index_image++;
-  } while (pch != NULL);
 
-  return number;
+// Fonction permettant de charger les images d'une base de données
+void load_dataBase(FILE* dataBase)
+{
+
 }
