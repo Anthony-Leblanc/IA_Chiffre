@@ -123,5 +123,23 @@ unsigned char* loadImage(unsigned char *number, unsigned int width, unsigned int
 // Fonction permettant de charger les images d'une base de données
 void load_dataBase(FILE* dataBase)
 {
+  unsigned int nbrImages = 0, width = 0, height = 0;
+  unsigned char* image = NULL, number = 0;
+  FILE* stream = NULL;
 
+  stream = fopen("test_load_dataBase.csv", "r");
+  if (stream == NULL)
+  {
+    puts("Error openning stream");
+    exit(1);
+  }
+  nbrImages = parametersImages(stream, &width, &height);
+
+  for (int i = 0; i < nbrImages; i++)
+  {
+    image = loadImage(&number, width, height, stream);
+    // sprintf (pour la chaine du nom du fichier)
+  }
+
+  fclose(stream);
 }

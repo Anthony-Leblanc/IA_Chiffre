@@ -27,6 +27,7 @@ void test_GetLine(void);
 void test_parametersImages(void);
 void test_loadImage(void);
 void test_saveBMP(void);
+void test_load_dataBase(void);
 
 
 int main(int argc, char argv[])
@@ -34,7 +35,8 @@ int main(int argc, char argv[])
   //test_GetLine(); // Fonctionne comme souhaité
   //test_parametersImages(); // Fonctionne comme souhaité
   //test_loadImage(); // Fonctionne comme souhaité
-  test_saveBMP(); // Fonctionne comme souhaité
+  //test_saveBMP(); // Fonctionne comme souhaité
+  test_load_dataBase();
 
   return EXIT_SUCCESS;
 }
@@ -133,4 +135,23 @@ void test_saveBMP(void)
 
   image = loadImage(&number, width, height, stream);
   saveBMP(image, height, width, "test.bmp");
+}
+
+// Fonction de test de la fonction loadDataFile
+void test_load_dataBase(void)
+{
+  // Cette première parti est à supprimer par la suite, elle permet de créer un fichier .csv pour le test
+  /*
+  FILE* stream = NULL;
+
+  stream = fopen("test_load_dataBase.csv", "w");
+  if (stream == NULL)
+  {
+    puts("Error openning stream");
+    exit(1);
+  }
+  fclose(stream);
+  */ // Le fichier a bien été crée
+
+  
 }
