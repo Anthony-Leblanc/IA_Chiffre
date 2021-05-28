@@ -29,6 +29,9 @@ void test_parametersImages(void);
 void test_loadImage(void);
 void test_saveBMP(void);
 void test_load_dataBase(void);
+void test_load_neuralNetwork(void);
+
+NETWORK* load_neuralNetwork(FILE* stream);
 
 
 
@@ -39,6 +42,7 @@ int main(int argc, char argv[])
   //test_loadImage(); // Fonctionne comme souhaité
   //test_saveBMP(); // Fonctionne comme souhaité
   //test_load_dataBase(); // Fonctionne comme souhaité
+  test_load_neuralNetwork(); // En cours d'étude
 
   return EXIT_SUCCESS;
 }
@@ -199,28 +203,98 @@ void test_load_dataBase(void)
   printf("****************************************************************************************************\n");
 }
 
+// Fonction de teste de la fonction load_neuralNetwork
+void test_load_neuralNetwork(void)
+{
+  printf("****************************************************************************************************\n");
+  printf("TEST : load_neuralNetwork\n\n");
+
+  NETWORK* network = NULL;
+  FILE* stream = NULL;
+
+  stream = fopen("network_30_10.csv", "r");
+  if (stream == NULL)
+  {
+    puts("Error openning stream");
+    exit(1);
+  }
+
+  network = load_neuralNetwork(stream);
+  printCouche(*network->list_layer.head);
+
+  printf("\n\nFIN DE TEST\n");
+  printf("****************************************************************************************************\n");
+}
+
 //****************************************************************************************************
 // A ajouter à reseau.h
 
 // Fonction permettant d'initialiser un réseau de neuronnes à partir d'un fichier
-void load_neuralNetwork(FILE* stream, NETWORK* network)
-{
-  char* str = NULL, * pch = NULL;
+// Bibliothèques à inclure :
+//#include <stdio.h> /*puts*/
+//#include <string.h> /*strtok*/
+//#include <stdlib.h> /*atoi, strtod*/
 
-  rewind(stream);
+NETWORK* load_neuralNetwork(FILE* stream)
+{
+  NETWORK* network = NULL;
+  char* str = NULL, * pch = NULL;
+  int nbrWeight = 0, nbrNeurone = 0;
+  double value = 0.0;
+  LIST_LAYER list_layer = { NULL };
+  COUCHE couche = { NULL };
+  LIST_NEURONE list_neurone = { NULL };
+  NEURONE neurone = { 0.0, };
+
   str = getLine(stream);
 
   if (str == NULL)
   {
-    puts("The neural network file is empty\n");
-    exit(1);
+    puts("The neural network file is empty");
+    return network;
   }
 
-  while (str != NULL)
+  while (str != NULL) // On parcourt l'ensemble du fichier
   {
-    pch = strtok(str, ";");
-    str = getLine(stream);
+    // Étape 1 : reconnaître une COUCHE :
+    pch = strtok(str, ";"); nbrWeight = atoi(pch); // Le premier élément est le nombre de poids des neurones de la couche
+    pch = strtok(NULL, ";"); nbrNeurone = atoi(pch); // Le deuxoème élément est le nombre de neurone de la couche
+    neurone.weight = initialiseWeight(nbrWeight); // On alloue la mémoire nécessaire au poids des neurones de la couche
+
+    // Étape 2 : initialiser les neurones de la couche (et les y ajouter)
+    for (int i = 0; i < nbrNeurone; i++) // Parcours des neurones
+    {
+      str = getLine(stream); // On récupère les infos du neurone
+      pch = strtok(str, ";"); value = strtod(pch, NULL); 
+      setBiais(&neurone, value); // On écrit la valeur du biais du neuronne
+      
+      for (int j = 0; j < nbrWeight; i++) // Il faut maintenant enregistrer les poids du neurone
+      {
+        pch = strtok(NULL, ";"); value = strtod(pch, NULL);
+        setWeight(&neurone, value, j); // On enregistre le poids "j"
+      }
+      setNeurone(&couche, &neurone); // On ajoute le neurone à la couche
+    }
+
+    // Étape 3 : on ajoute la couche à la liste de couche
+    if (list_layer.tail == NULL) // Cas de la liste vide
+    {
+      list_layer.head = &couche;
+      list_layer.tail = &couche;
+    }
+    else // S'il existe déjà un élément dans la liste
+    {
+      list_layer.tail->next = &couche;
+      couche.prev = list_layer.tail;
+      couche.next = NULL;
+      list_layer.tail = &couche;
+    }
+    str = getLine(stream); // On prend un nouvelle ligne, permet aussi de vérifier la condition du while
   }
+
+  // Étape 4 : ajout de la liste de couche dans le réseau de neurones
+  network->list_layer = list_layer;
+  return network;
 }
 
 // Fin d'ajout
