@@ -40,7 +40,7 @@ void test1(void)  // test des fonctions get,set, initialiseWeight et printNeuron
 
 void test2(void)
 {
-  int tab[] = { 0,1,2,3,4,5,6,7,8,9 };
+  double tab[] = { 0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0 };
   COUCHE couche;
   LIST list = { NULL, NULL };
   setNbrNeurone(&couche, 10);
@@ -57,36 +57,40 @@ void test2(void)
   list.head = &neurone;
   couche.neurone.head = list.head;
   printf("\nici j'affiche mon neurone partie 2");
-  neurone2 = getNeurone(&couche, 0);
-  printNEURONE(neurone2, couche.nbrNeurone);
+  //neurone2 = getNeurone(&couche, 0);
+ // printNEURONE(neurone2, couche.nbrNeurone);
 }
 
 void test3(void)
 {
   printf("\ntest fonction get et set neurone et print couche\n");
   COUCHE couche;
+  couche.next = NULL;
+  couche.prev = NULL;
   LIST list = { NULL,NULL };
+  couche.neurone.head = list.head;
+  couche.neurone.tail = list.tail;
   setNbrNeurone(&couche, 3);
   NEURONE neurone;
   neurone.weight = initialiseWeight(couche.nbrNeurone);
   neurone.biais =1.5;
   int i = 0;
-  for (i = 0; i < i + 3; i++)
+  for (i = 0; i < 3; i++)
     neurone.weight[i] = i;
   NEURONE neurone2;
   neurone2.weight = initialiseWeight(couche.nbrNeurone);
-  neurone2.biais = 1.5;
+  neurone2.biais = 2.4;
   i = 0;
-  for (i = 0; i < i + 3; i++)
+  for (i = 0; i < 3; i++)
     neurone2.weight[i] = i;
   NEURONE neurone3;
   neurone3.weight = initialiseWeight(couche.nbrNeurone);
-  neurone3.biais = 1.5;
+  neurone3.biais = 3.6;;
   i = 0;
-  for (i = 0; i < i + 3; i++)
+  for (i = 0; i < 3; i++)
     neurone3.weight[i] = i;
-  setNeurone(&couche, neurone);
-  setNeurone(&couche, neurone2);
-  setNeurone(&couche, neurone3);
+  setNeurone(&couche, &neurone);
+  setNeurone(&couche, &neurone2);
+  setNeurone(&couche,&neurone3);
   printCouche(couche);
 }
