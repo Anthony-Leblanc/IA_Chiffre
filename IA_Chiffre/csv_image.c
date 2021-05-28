@@ -146,4 +146,3 @@ void load_dataBase(FILE* dataBase)
 
   fclose(stream);
 }
-

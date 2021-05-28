@@ -63,4 +63,3 @@ void saveBMP (unsigned char data[], int rows, int cols, const char *filename)
     free (img);
   }
 }
-

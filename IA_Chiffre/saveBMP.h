@@ -25,3 +25,4 @@ Ce fichier contient une unique fonction partager par l'encadrant (M. Dubessy) pe
   void saveBMP(unsigned char data[], int rows, int cols, const char* filename);
 
 #endif
+  
