@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-/*dernière modification 21/05/2021,LEBLANC Anthony,ROUSSEAU Alex*/
+/*dernière modification 28/05/2021,LEBLANC Anthony,ROUSSEAU Alex*/
 
 
 #include<stdio.h> /*printf*/
@@ -8,7 +8,7 @@
 
 
 
-void printNEURONE(NEURONE neurone, int taille) //affiche tout un neurone
+void printNEURONE(NEURONE neurone, int taille) //affiche tout un neurone (la taille est nécessaire pour le tableau de weight alloué dynamiquement)
 {
 
 	printf("Biais : %lf Weight :", getBiais(&neurone));
@@ -25,21 +25,21 @@ void printCouche(COUCHE couche)
 {
 	if (couche.neurone.head == NULL)
 	{
-		printf("\nListe vide\n");
+		printf("\nListe vide\n"); // liste vide on indique une liste vide puis on sort de la fonction 
 		exit(1);
 	}
-	NEURONE *neurone = NULL;
+	NEURONE *neurone = NULL; // sinon on crée un pointeur null
 	int i = 0;
 	do
 	{
-		neurone = getNeurone(&couche,i);
+		neurone = getNeurone(&couche,i); // je récupère le neurone numéro i
 		printf("\nneurone %d \n", i);
-		printNEURONE(*neurone, couche.nbrNeurone);
+		printNEURONE(*neurone, couche.tailleTabw);// je l'affiche
 		i++;
-	} while (i<2);
-	//neurone = getNeurone(&couche, i);
-	//printf("\nneurone %d \n", i);
-	//printNEURONE(*neurone, couche.nbrNeurone);
+	} while (neurone->next != couche.neurone.tail);
+	neurone = getNeurone(&couche, i);//on est à la fin j'affiche le dernier neurone
+	printf("\nneurone %d \n", i);
+	printNEURONE(*neurone, couche.tailleTabw);
 }
 
 double getBiais(NEURONE* neurone) // obtient le biais d'un neurone 
@@ -52,10 +52,10 @@ double getWeight(NEURONE* neurone,int n)// obtient weight position n d'un neuron
 	return neurone->weight[n];
 }
 
-double* initialiseWeight( int nbrNeurone)// permet d'allouer dynamiquement le tableau de weight
+double* initialiseWeight( int tailleTabw)// permet d'allouer dynamiquement le tableau de weight
 {
 	double* weight = NULL;
-	weight = (double*)calloc(nbrNeurone, sizeof(double));
+	weight = (double*)calloc(tailleTabw, sizeof(double));
 	if (weight == NULL)
 	{
 		free(weight);
@@ -65,9 +65,9 @@ double* initialiseWeight( int nbrNeurone)// permet d'allouer dynamiquement le ta
 	return weight;
 }
 
-int getNbrNeurone(COUCHE* couche) // obtient le nombre de neurone(taille des tableaux) dans une couche
+int getTailleTabw(COUCHE* couche) // obtient le nombre de neurone(taille des tableaux) dans une couche
 {
-	return couche->nbrNeurone;
+	return couche->tailleTabw;
 }
 
 NEURONE* getNeurone(COUCHE* couche, int n) // obtenir le neurone position n dans la liste
@@ -91,17 +91,17 @@ void setBiais(NEURONE* neurone, double biais) // attribue le biais d'un neurone
 
 void setWeight(NEURONE* neurone, double weight, int n)// attribue le weight de la position n
 {
-	neurone->weight[n] = weight; // je l'attibue pour un vaudrait-il mieux tout le tableau?
+	neurone->weight[n] = weight; 
 }
 
-void setNbrNeurone(COUCHE* couche, int nbrNeurone)//atribue le nombre de Neurone
+void setTailleTabw(COUCHE* couche, int tailleTabw)//atribue la taille des tableau de weight
 {
-	couche->nbrNeurone = nbrNeurone;
+	couche->tailleTabw = tailleTabw;
 }
 
-void setNeurone(COUCHE* couche,NEURONE* neurone) // attibue un neurone
+void setNeurone(COUCHE* couche,NEURONE* neurone) // attibue un neurone set neurone et append to list en même temps 
 {
-	if (couche->neurone.head == NULL)
+	if (couche->neurone.tail == NULL)
 	{
 		couche->neurone.head = neurone;
 		couche->neurone.tail = neurone;
@@ -110,8 +110,8 @@ void setNeurone(COUCHE* couche,NEURONE* neurone) // attibue un neurone
 	}
 	else
 	{
-		neurone->prev = couche->neurone.tail;
-		neurone->next = NULL;
 		couche->neurone.tail->next = neurone;
+		neurone->prev = couche->neurone.tail;
+		couche->neurone.tail = neurone;
 	}
 }
