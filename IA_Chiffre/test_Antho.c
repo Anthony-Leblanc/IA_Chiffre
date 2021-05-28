@@ -3,7 +3,7 @@
 /*
 Leblanc Anthony, Rousseau Alex
 
-Dernière modification : 21/05/2021
+Dernière modification : 28/05/2021
 
 Projet : Intelligence artificielle
 Le but de ce projet est d'écrire un logiciel permettant de lire et reconnaître des chiffres dans des images.
@@ -20,6 +20,7 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 
 #include "csv_image.h"
 #include "saveBMP.h"
+#include "reseau.h"
 
 
 
@@ -28,6 +29,7 @@ void test_parametersImages(void);
 void test_loadImage(void);
 void test_saveBMP(void);
 void test_load_dataBase(void);
+
 
 
 int main(int argc, char argv[])
@@ -125,7 +127,7 @@ void test_loadImage(void)
   image = loadImage(&number, width, height, stream);
 
   printf("Nombre = %d\nimage : \n", number);
-  for (int i = 0; i < width * height; i++)
+  for (unsigned int i = 0; i < width * height; i++)
   {
     printf("%d ", image[i]);
   }
@@ -197,3 +199,29 @@ void test_load_dataBase(void)
   printf("****************************************************************************************************\n");
 }
 
+//****************************************************************************************************
+// A ajouter à reseau.h
+
+// Fonction permettant d'initialiser un réseau de neuronnes à partir d'un fichier
+void load_neuralNetwork(FILE* stream, NETWORK* network)
+{
+  char* str = NULL, * pch = NULL;
+
+  rewind(stream);
+  str = getLine(stream);
+
+  if (str == NULL)
+  {
+    puts("The neural network file is empty\n");
+    exit(1);
+  }
+
+  while (str != NULL)
+  {
+    pch = strtok(str, ";");
+    str = getLine(stream);
+  }
+}
+
+// Fin d'ajout
+//****************************************************************************************************
