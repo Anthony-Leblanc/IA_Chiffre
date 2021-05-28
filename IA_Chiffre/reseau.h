@@ -19,16 +19,16 @@ typedef struct _NEURONE
   struct _NEURONE* prev;
 }NEURONE;
 
-typedef struct _LIST
+typedef struct _LIST_NEURONE 
 {
   NEURONE* head;
   NEURONE* tail;
-}LIST;
+}LIST_NEURONE;
 
 typedef struct _COUCHE
 {
-  LIST neurone;
-  int nbrNeurone;
+  LIST_NEURONE neurone;
+  int tailleTabw;
   struct _COUCHE* next;
   struct _COUCHE* prev;
   double **in;
@@ -36,17 +36,29 @@ typedef struct _COUCHE
 
 }COUCHE;
 
+typedef struct _LIST_LAYER
+{
+  COUCHE* head;
+  COUCHE* tail;
+}LIST_LAYER;
+
+typedef struct _NETWORK
+{
+  LIST_LAYER list_layer;
+}NETWORK;
+
+//void load_neuralNetwork(FILE* stream, NETWORK* network);
 
 void printNEURONE(NEURONE neurone, int taille);
 void printCouche(COUCHE couche);
 double getBiais(NEURONE* neurone);
 double getWeight(NEURONE* neurone,int n);
-double * initialiseWeight(int nbrNeurone);
-int getNbrNeurone(COUCHE* couche);
+double * initialiseWeight(int tailleTabw);
+int getTailleTabw(COUCHE* couche);
 NEURONE* getNeurone(COUCHE* couche, int n);
 void setBiais(NEURONE* neurone, double biais);
 void setWeight(NEURONE* neurone, double weight, int n);
-void setNbrNeurone(COUCHE* couche, int nbrNeurone);
+void setTailleTabw(COUCHE* couche, int nbrNeurone);
 void setNeurone(COUCHE* couche,NEURONE* neurone);
 
 
