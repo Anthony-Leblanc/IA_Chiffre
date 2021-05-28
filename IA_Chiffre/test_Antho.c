@@ -15,8 +15,7 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 
 
 
-#include <stdio.h>  /*FILE, fopen, puts, printf*/
-#include <stdlib.h> /*EXIT_SUCCESS*/
+#include "test_Antho.h"
 
 #include "csv_image.h"
 #include "saveBMP.h"
@@ -24,25 +23,15 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 
 
 
-void test_GetLine(void);
-void test_parametersImages(void);
-void test_loadImage(void);
-void test_saveBMP(void);
-void test_load_dataBase(void);
-void test_load_neuralNetwork(void);
 
-NETWORK* load_neuralNetwork(FILE* stream);
-
-
-
-int main(int argc, char argv[])
+void test_Antho(void)
 {
-  //test_GetLine(); // Fonctionne comme souhaité
-  //test_parametersImages(); // Fonctionne comme souhaité
-  //test_loadImage(); // Fonctionne comme souhaité
-  //test_saveBMP(); // Fonctionne comme souhaité
-  //test_load_dataBase(); // Fonctionne comme souhaité
-  test_load_neuralNetwork(); // En cours d'étude
+  test_GetLine(); // Fonctionne comme souhaité
+  test_parametersImages(); // Fonctionne comme souhaité
+  test_loadImage(); // Fonctionne comme souhaité
+  test_saveBMP(); // Fonctionne comme souhaité
+  test_load_dataBase(); // Fonctionne comme souhaité
+  //test_load_neuralNetwork(); // En cours d'étude
 
   return EXIT_SUCCESS;
 }

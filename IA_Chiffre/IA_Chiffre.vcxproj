@@ -148,8 +148,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="csv_image.h" />
+    <ClInclude Include="debutprojet.h" />
     <ClInclude Include="reseau.h" />
     <ClInclude Include="saveBMP.h" />
+    <ClInclude Include="test_Antho.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

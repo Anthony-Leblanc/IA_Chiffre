@@ -17,13 +17,17 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 #include <stdio.h>  /*FILE, fopen, puts, printf*/
 #include <stdlib.h> /*EXIT_SUCCESS*/
 
-#include "csv_image.h"
+#include "debutprojet.h"
+#include "test_Antho.h"
 
 
-/*
+
 int main(int argc, char argv[])
 {
+  test_Alex();
+  printf("\n\n\n");
+  test_Antho();
 
   return EXIT_SUCCESS;
 }
-*/
+

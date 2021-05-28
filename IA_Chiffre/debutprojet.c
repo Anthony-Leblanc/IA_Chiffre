@@ -5,17 +5,11 @@ Leblanc Anthony, Rousseau Alex
 
 Dernière modification : 28/05/2021*/
 
-
-#include<stdio.h> /*printf*/
-#include<stdlib.h>/*calloc*/
+#include "debutprojet.h"
 #include "reseau.h"
 
-void test1(void);
-void test2(void);
-void test3(void);
-void test4(void);
 
-int main(int argc, char argv[])
+void test_Alex(void)
 {
   test1();
   test2();
