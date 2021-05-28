@@ -16,6 +16,7 @@ Ce fichier contient une unique fonction partager par l'encadrant (M. Dubessy) pe
 
 
 #include "saveBMP.h"
+#include <stdlib.h> /*malloc, free*/
 
 
 
