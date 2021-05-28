@@ -16,6 +16,7 @@ Ce fichier est le programme contenant les fonctions de manipulation des fichiers
 
 
 #include "csv_image.h"
+#include "saveBMP.h"
 
 
 
@@ -65,7 +66,7 @@ unsigned int parametersImages(FILE* file, unsigned int* width, unsigned int* hei
   unsigned int nbrImages = 0;
 
   str = getLine(file);
-  
+
   pch = strtok(str, ";");
 
   nbrImages = atoi(pch);  pch = strtok(NULL, ";");
@@ -77,7 +78,7 @@ unsigned int parametersImages(FILE* file, unsigned int* width, unsigned int* hei
 
 
 // Fonction permettant de charger l'image dans un tableau tout en donnant la valeur de l'entier de l'image
-unsigned char* loadImage(unsigned char *number, unsigned int width, unsigned int height, FILE* file)
+unsigned char* loadImage(unsigned char* number, unsigned int width, unsigned int height, FILE* file)
 {
   unsigned long size_image = 0, index_image = 0;
   char* str = NULL, * pch = NULL, * pImage = NULL, pixel = 0;
@@ -121,10 +122,11 @@ unsigned char* loadImage(unsigned char *number, unsigned int width, unsigned int
 
 
 // Fonction permettant de charger les images d'une base de données
+// Fonction à modifier par la suite pour s'en servir pour l'entrainement du réseau de neuronnes
 void load_dataBase(FILE* dataBase)
 {
   unsigned int nbrImages = 0, width = 0, height = 0;
-  unsigned char* image = NULL, number = 0;
+  unsigned char* image = NULL, number = 0, imageName[20];
   FILE* stream = NULL;
 
   stream = fopen("test_load_dataBase.csv", "r");
@@ -135,10 +137,11 @@ void load_dataBase(FILE* dataBase)
   }
   nbrImages = parametersImages(stream, &width, &height);
 
-  for (int i = 0; i < nbrImages; i++)
+  for (unsigned int i = 0; i < nbrImages; i++)
   {
     image = loadImage(&number, width, height, stream);
-    // sprintf (pour la chaine du nom du fichier)
+    sprintf(imageName, "image_%d___%d.bmp", i, number); printf("\nTEST : %s\n", imageName);
+    saveBMP(image, height, width, imageName); // A remplacer par imageTraining()
   }
 
   fclose(stream);

@@ -66,5 +66,27 @@ void test3(void)
   printf("\ntest fonction get et set neurone et print couche\n");
   COUCHE couche;
   LIST list = { NULL,NULL };
-
+  setNbrNeurone(&couche, 3);
+  NEURONE neurone;
+  neurone.weight = initialiseWeight(couche.nbrNeurone);
+  neurone.biais =1.5;
+  int i = 0;
+  for (i = 0; i < i + 3; i++)
+    neurone.weight[i] = i;
+  NEURONE neurone2;
+  neurone2.weight = initialiseWeight(couche.nbrNeurone);
+  neurone2.biais = 1.5;
+  i = 0;
+  for (i = 0; i < i + 3; i++)
+    neurone2.weight[i] = i;
+  NEURONE neurone3;
+  neurone3.weight = initialiseWeight(couche.nbrNeurone);
+  neurone3.biais = 1.5;
+  i = 0;
+  for (i = 0; i < i + 3; i++)
+    neurone3.weight[i] = i;
+  setNeurone(&couche, neurone);
+  setNeurone(&couche, neurone2);
+  setNeurone(&couche, neurone3);
+  printCouche(couche);
 }

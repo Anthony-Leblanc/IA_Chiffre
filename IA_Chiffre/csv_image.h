@@ -12,6 +12,10 @@ Ce fichier est le fichier d'en-tête du fichier "csv_image.c".
 */
 
 
+
+#ifndef _CSV_IMAGE_h_ // Si la constante n'a pas été définie le fichier n'a jamais été inclus
+#define _CSV_IMAGE_h_ // On définit la constante pour que la prochaine fois le fichier ne soit plus inclus
+
 #pragma once
 
 #define MAX_STR 100
@@ -26,3 +30,5 @@ char* getLine(FILE* file);
 unsigned int parametersImages(FILE* file, unsigned int* width, unsigned int* height);
 unsigned char* loadImage(unsigned char* number, unsigned int width, unsigned int height, FILE* file);
 void load_dataBase(FILE* dataBase);
+
+#endif
