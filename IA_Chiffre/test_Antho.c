@@ -118,7 +118,7 @@ void test_loadImage(void)
     exit(1);
   }
 
-  unsigned int width = 0, height = 0; 
+  unsigned int width = 0, height = 0;
   unsigned char* image = NULL, number = 0;
   unsigned int nbrImages = parametersImages(stream, &width, &height);
 

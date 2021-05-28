@@ -66,7 +66,7 @@ unsigned int parametersImages(FILE* file, unsigned int* width, unsigned int* hei
   unsigned int nbrImages = 0;
 
   str = getLine(file);
-  
+
   pch = strtok(str, ";");
 
   nbrImages = atoi(pch);  pch = strtok(NULL, ";");
@@ -78,7 +78,7 @@ unsigned int parametersImages(FILE* file, unsigned int* width, unsigned int* hei
 
 
 // Fonction permettant de charger l'image dans un tableau tout en donnant la valeur de l'entier de l'image
-unsigned char* loadImage(unsigned char *number, unsigned int width, unsigned int height, FILE* file)
+unsigned char* loadImage(unsigned char* number, unsigned int width, unsigned int height, FILE* file)
 {
   unsigned long size_image = 0, index_image = 0;
   char* str = NULL, * pch = NULL, * pImage = NULL, pixel = 0;

@@ -11,8 +11,8 @@ Définition des structures des réseaux de neuronnes
 
 typedef struct _NEURONE
 {
-  unsigned int biais;
-  unsigned int* weight;
+  double biais;
+  double* weight;
   struct _NEURONE* next;
   struct _NEURONE* prev;
 }NEURONE;
@@ -36,13 +36,13 @@ typedef struct _COUCHE
 
 
 void printNEURONE(NEURONE neurone, int taille);
-unsigned int getBiais(NEURONE* neurone);
-unsigned int getWeight(NEURONE* neurone,int n);  
+void printCouche(COUCHE couche);
+double getBiais(NEURONE* neurone);
+double getWeight(NEURONE* neurone,int n);
 int * initialiseWeight(int nbrNeurone);
 int getNbrNeurone(COUCHE* couche);
 NEURONE getNeurone(COUCHE* couche, int n);
-void setBiais(NEURONE* neurone, unsigned int biais);
-void setWeight(NEURONE* neurone, unsigned int weight, int n);
+void setBiais(NEURONE* neurone, double biais);
+void setWeight(NEURONE* neurone, double weight, int n);
 void setNbrNeurone(COUCHE* couche, int nbrNeurone);
-void setNeurone(COUCHE* couche, int n, NEURONE neurone);
-void appendToList(LIST* liste, NEURONE neurone,int n); //en construction
+void setNeurone(COUCHE* couche,NEURONE neurone);
