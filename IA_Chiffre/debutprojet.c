@@ -12,11 +12,13 @@ Dernière modification : 21/05/2021*/
 
 void test1(void);
 void test2(void);
+void test3(void);
 
 int main(int argc, char argv[])
 {
   test1();
   test2();
+  test3();
 }
 
 void test1(void)  // test des fonctions get,set, initialiseWeight et printNeurone
@@ -40,15 +42,29 @@ void test2(void)
 {
   int tab[] = { 0,1,2,3,4,5,6,7,8,9 };
   COUCHE couche;
+  LIST list = { NULL, NULL };
   setNbrNeurone(&couche, 10);
   NEURONE neurone;
+  NEURONE neurone2;
   setBiais(&neurone, 1);
   neurone.weight = initialiseWeight(couche.nbrNeurone);
   for (int i = 0; i < couche.nbrNeurone; i++)
   {
     setWeight(&neurone, tab[i], i); // initialisation d'une strucuture neurone
   }
+  printf("\nici j'affiche mon neurone partie test 2 part 1 ");
   printNEURONE(neurone, couche.nbrNeurone);
-  LIST list = { NULL, NULL };
-  //appendToList(&list, neurone, 0);
+  list.head = &neurone;
+  couche.neurone.head = list.head;
+  printf("\nici j'affiche mon neurone partie 2");
+  neurone2 = getNeurone(&couche, 0);
+  printNEURONE(neurone2, couche.nbrNeurone);
+}
+
+void test3(void)
+{
+  printf("\ntest fonction get et set neurone et print couche\n");
+  COUCHE couche;
+  LIST list = { NULL,NULL };
+
 }
