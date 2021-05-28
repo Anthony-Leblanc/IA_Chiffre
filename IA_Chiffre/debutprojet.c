@@ -13,18 +13,20 @@ Dernière modification : 28/05/2021*/
 void test1(void);
 void test2(void);
 void test3(void);
+void test4(void);
 
 int main(int argc, char argv[])
 {
   test1();
   test2();
   test3();
+  test4();
 }
 
 void test1(void)  // test des fonctions get,set, initialiseWeight et printNeurone
 {
-  printf("test des premières fonction set et get\n");
-  int tab[] = { 0,1,2,3,4,5,6,7,8,9 };
+  printf("test des premieres fonction set et get\n");
+  double tab[] = { 0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0 };
   COUCHE couche;
   setTailleTabw(&couche, 10);
   NEURONE neurone;
@@ -39,7 +41,7 @@ void test1(void)  // test des fonctions get,set, initialiseWeight et printNeuron
   printNEURONE(neurone, couche.tailleTabw); // les fonctions get et set de base fonctionne bien
 }
 
-void test2(void)
+void test2(void)// test de getNeurone
 {
   double tab[] = { 0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0 };
   COUCHE couche;
@@ -53,16 +55,17 @@ void test2(void)
   {
     setWeight(&neurone, tab[i], i); // initialisation d'une strucuture neurone
   }
-  printf("\nici j'affiche mon neurone partie test 2 part 1 ");
+  printf("\nici j'affiche mon neurone partie test 2 part 1 \n");
   printNEURONE(neurone, couche.tailleTabw);
   list.head = &neurone;
   couche.neurone.head = list.head;
-  printf("\nici j'affiche mon neurone partie 2");
+  printf("\nici j'affiche mon neurone partie 2\n");
   neurone2 = getNeurone(&couche, 0);
   printNEURONE(*neurone2, couche.tailleTabw);
+  printf("\n");
 }
 
-void test3(void)
+void test3(void)// dernier test des fonction get/set neurone puis test print couche
 {
   printf("\ntest fonction get et set neurone et print couche\n");
   COUCHE couche;
@@ -89,9 +92,46 @@ void test3(void)
   neurone3.biais = 3.6;;
   i = 0;
   for (i = 0; i < 3; i++)
-    neurone3.weight[i] = i;
+    neurone3.weight[i] = i; //jusqu'ici création de 3 neurones
   setNeurone(&couche, &neurone);
   setNeurone(&couche, &neurone2);
-  setNeurone(&couche,&neurone3);
-  printCouche(couche);
+  setNeurone(&couche,&neurone3); // ajout des 3 neurones dans la liste de la couche créée
+  printCouche(couche);// on affiche notre couche
+}
+
+void test4(void)
+{
+  printf("\ntest 4\n");
+  NETWORK network;
+  COUCHE couche;
+  couche.next = NULL;
+  couche.prev = NULL;
+  LIST_NEURONE list = { NULL,NULL };
+  couche.neurone.head = list.head;
+  couche.neurone.tail = list.tail;
+  setTailleTabw(&couche, 3);
+  NEURONE neurone;
+  neurone.weight = initialiseWeight(couche.tailleTabw);
+  neurone.biais = 1.5;
+  int i = 0;
+  for (i = 0; i < 3; i++)
+    neurone.weight[i] = i;
+  NEURONE neurone2;
+  neurone2.weight = initialiseWeight(couche.tailleTabw);
+  neurone2.biais = 2.4;
+  i = 0;
+  for (i = 0; i < 3; i++)
+    neurone2.weight[i] = i;
+  NEURONE neurone3;
+  neurone3.weight = initialiseWeight(couche.tailleTabw);
+  neurone3.biais = 3.6;
+  i = 0;
+  for (i = 0; i < 3; i++)
+    neurone3.weight[i] = i; //jusqu'ici création de 3 neurones
+  setNeurone(&couche, &neurone);
+  setNeurone(&couche, &neurone2);
+  setNeurone(&couche, &neurone3);
+  network.list_layer.head = &couche;
+  printCouche(*network.list_layer.head);
+  save_neuralNetwork(&network);
 }

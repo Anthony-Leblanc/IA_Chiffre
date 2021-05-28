@@ -61,5 +61,6 @@ void setWeight(NEURONE* neurone, double weight, int n);
 void setTailleTabw(COUCHE* couche, int nbrNeurone);
 void setNeurone(COUCHE* couche,NEURONE* neurone);
 
+void save_neuralNetwork(NETWORK* network);
 
 #endif

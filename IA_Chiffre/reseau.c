@@ -2,7 +2,7 @@
 /*dernière modification 28/05/2021,LEBLANC Anthony,ROUSSEAU Alex*/
 
 
-#include<stdio.h> /*printf*/
+#include<stdio.h> /*printf,fopen*/
 #include<stdlib.h>/*calloc*/
 #include "reseau.h"
 
@@ -99,7 +99,7 @@ void setTailleTabw(COUCHE* couche, int tailleTabw)//atribue la taille des tablea
 	couche->tailleTabw = tailleTabw;
 }
 
-void setNeurone(COUCHE* couche,NEURONE* neurone) // attibue un neurone set neurone et append to list en même temps 
+void setNeurone(COUCHE* couche,NEURONE* neurone) // attibue un neurone => set neurone et append to list en même temps 
 {
 	if (couche->neurone.tail == NULL)
 	{
@@ -114,4 +114,55 @@ void setNeurone(COUCHE* couche,NEURONE* neurone) // attibue un neurone set neuro
 		neurone->prev = couche->neurone.tail;
 		couche->neurone.tail = neurone;
 	}
+}
+
+
+
+void save_neuralNetwork(NETWORK* network)
+{
+	char name[] = "neuralNetwork2.csv";
+	FILE* file = fopen(name, "w");
+	if (file == NULL)
+	{
+		printf("Error could not open %s\n", name);
+		exit(1);
+	}
+	int nbrCouche=0;
+	COUCHE* couche = NULL;
+	couche = network->list_layer.head;
+	couche->neurone.head = network->list_layer.head->neurone.head;
+	/*while (couche->next != network->list_layer.tail)
+	{
+		couche = couche->next;
+		nbrCouche++;
+	}
+	/*/
+	nbrCouche++;
+	printf("nbr couche =%d", nbrCouche);
+	for (int j = 0; j < nbrCouche; j++)
+	{
+		int taillew = 0;
+		taillew = getTailleTabw(network->list_layer.head); // je récupère la taille des tableaux de weight
+		int NbrNerone = 0;
+		NEURONE* neurone = NULL; // sinon on crée un pointeur null
+		neurone = getNeurone(network->list_layer.head, NbrNerone); // je travail pour une couche pour l'instant à changer quand plus
+		while (neurone->next != network->list_layer.head->neurone.tail)
+		{
+			neurone = getNeurone(network->list_layer.head, NbrNerone); // je récupère le neurone i
+			NbrNerone++; // je compte le neurone i
+		}
+		NbrNerone++; // car on compte pas le dernier neurone
+		fprintf(file, "%d ; %d\n", taillew, NbrNerone); // Première ligne qui renvoie la taille du tableau weight et le nombre de neurone
+		for (int i = 0; i < NbrNerone; i++)
+		{
+			neurone = getNeurone(network->list_layer.head, i);
+			fprintf(file, "%lf ;", getBiais(neurone));
+			for (int k = 0; k < network->list_layer.head->tailleTabw; k++)
+			{
+				fprintf(file, "%d ;", getWeight(neurone, k)); // petit problème 
+			}
+			fprintf(file, "\n");
+		}
+	}
+	fclose(file);
 }
