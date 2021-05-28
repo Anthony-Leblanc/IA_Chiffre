@@ -37,9 +37,9 @@ void printCouche(COUCHE couche)
 		printNEURONE(*neurone, couche.nbrNeurone);
 		i++;
 	} while (i<2);
-	neurone = getNeurone(&couche, i);
-	printf("\nneurone %d \n", i);
-	printNEURONE(*neurone, couche.nbrNeurone);
+	//neurone = getNeurone(&couche, i);
+	//printf("\nneurone %d \n", i);
+	//printNEURONE(*neurone, couche.nbrNeurone);
 }
 
 double getBiais(NEURONE* neurone) // obtient le biais d'un neurone 

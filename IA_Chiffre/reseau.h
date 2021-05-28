@@ -1,5 +1,7 @@
 #pragma once
-// dernière modification 21/05/2021 Anthony Leblanc, Alex ROUSSEAU
+#ifndef _reseau_h_ // Si la constante n'a pas été définie le fichier n'a jamais été inclus
+#define _reseau_h_ // On définit la constante pour que la prochaine fois le fichier ne soit plus inclus
+// dernière modification 28/05/2021 Anthony Leblanc, Alex ROUSSEAU
 
 /*
 Définition des structures des réseaux de neuronnes
@@ -46,3 +48,6 @@ void setBiais(NEURONE* neurone, double biais);
 void setWeight(NEURONE* neurone, double weight, int n);
 void setNbrNeurone(COUCHE* couche, int nbrNeurone);
 void setNeurone(COUCHE* couche,NEURONE* neurone);
+
+
+#endif
