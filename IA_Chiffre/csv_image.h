@@ -1,7 +1,7 @@
 /*
 Leblanc Anthony, Rousseau Alex
 
-Dernière modification : 28/05/2021
+Dernière modification : 09/06/2021
 
 Projet : Intelligence artificielle
 Le but de ce projet est d'écrire un logiciel permettant de lire et reconnaître des chiffres dans des images.
@@ -19,6 +19,7 @@ Ce fichier est le fichier d'en-tête du fichier "csv_image.c".
 #pragma once
 
 #define MAX_STR 100
+#define TAILLE_MAX 15000
 
 #include <stdio.h>    /*FILE, fgets, puts, rewind*/
 #include <string.h>   /*strlen, strcpy, strtok*/
