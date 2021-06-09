@@ -36,7 +36,7 @@ void printCouche(COUCHE couche)
 		printf("\nneurone %d \n", i);
 		printNEURONE(*neurone, couche.tailleTabw);// je l'affiche
 		i++;
-	} while (neurone->next != couche.neurone.tail);
+	} while (neurone->next != couche.neurone.tail && neurone != couche.neurone.tail);
 	neurone = getNeurone(&couche, i);//on est à la fin j'affiche le dernier neurone
 	printf("\nneurone %d \n", i);
 	printNEURONE(*neurone, couche.tailleTabw);
