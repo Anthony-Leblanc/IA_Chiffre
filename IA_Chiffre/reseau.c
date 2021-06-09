@@ -131,37 +131,67 @@ void save_neuralNetwork(NETWORK* network)
 	COUCHE* couche = NULL;
 	couche = network->list_layer.head;
 	couche->neurone.head = network->list_layer.head->neurone.head;
-	/*while (couche->next != network->list_layer.tail)
+	while (couche->next != network->list_layer.tail)
 	{
 		couche = couche->next;
 		nbrCouche++;
 	}
-	/*/
+	
 	nbrCouche++;
-	printf("nbr couche =%d", nbrCouche);
-	for (int j = 0; j < nbrCouche; j++)
+	couche = network->list_layer.head;
+	printf("\nnbr couche =%d", nbrCouche+1);
+	for (int j = 0; j <= nbrCouche; j++)
 	{
-		int taillew = 0;
-		taillew = getTailleTabw(network->list_layer.head); // je récupère la taille des tableaux de weight
-		int NbrNerone = 0;
-		NEURONE* neurone = NULL; // sinon on crée un pointeur null
-		neurone = getNeurone(network->list_layer.head, NbrNerone); // je travail pour une couche pour l'instant à changer quand plus
-		while (neurone->next != network->list_layer.head->neurone.tail)
-		{
-			neurone = getNeurone(network->list_layer.head, NbrNerone); // je récupère le neurone i
-			NbrNerone++; // je compte le neurone i
-		}
-		NbrNerone++; // car on compte pas le dernier neurone
-		fprintf(file, "%d ; %d\n", taillew, NbrNerone); // Première ligne qui renvoie la taille du tableau weight et le nombre de neurone
-		for (int i = 0; i < NbrNerone; i++)
-		{
-			neurone = getNeurone(network->list_layer.head, i);
-			fprintf(file, "%lf ;", getBiais(neurone));
-			for (int k = 0; k < network->list_layer.head->tailleTabw; k++)
+		if(j ==0)
+		{ 
+			int taillew = 0;
+			taillew = getTailleTabw(network->list_layer.head); // je récupère la taille des tableaux de weight
+			int NbrNerone = 0;
+			NEURONE* neurone = NULL; // sinon on crée un pointeur null
+			neurone = getNeurone(network->list_layer.head, NbrNerone); // je travail pour une couche pour l'instant à changer quand plus
+			while (neurone->next != network->list_layer.head->neurone.tail)
 			{
-				fprintf(file, "%d ;", getWeight(neurone, k)); // petit problème 
+				neurone = getNeurone(network->list_layer.head, NbrNerone); // je récupère le neurone i
+				NbrNerone++; // je compte le neurone i
 			}
-			fprintf(file, "\n");
+			NbrNerone++; // car on compte pas le dernier neurone
+			fprintf(file, "%d ; %d\n", taillew, NbrNerone); // Première ligne qui renvoie la taille du tableau weight et le nombre de neurone
+			for (int i = 0; i < NbrNerone; i++)
+			{
+				neurone = getNeurone(network->list_layer.head, i);
+				fprintf(file, "%lf ;", getBiais(neurone));
+				for (int k = 0; k < network->list_layer.head->tailleTabw; k++)
+				{
+					fprintf(file, "%lf ;", getWeight(neurone, k));
+				}
+				fprintf(file, "\n");
+			}
+		}
+		else
+		{
+			int taillew = 0;
+			couche = couche->next;
+			taillew = getTailleTabw(couche);
+			int NbrNerone = 0;
+			NEURONE* neurone = NULL; // sinon on crée un pointeur null
+			neurone = getNeurone(couche, NbrNerone);
+			while (neurone->next != couche->neurone.tail)
+			{
+				neurone = getNeurone(couche, NbrNerone); // je récupère le neurone i
+				NbrNerone++; // je compte le neurone i
+			}
+			NbrNerone++; // car on compte pas le dernier neurone
+			fprintf(file, "%d ; %d\n", taillew, NbrNerone); // Première ligne qui renvoie la taille du tableau weight et le nombre de neurone
+			for (int i = 0; i < NbrNerone; i++)
+			{
+				neurone = getNeurone(couche, i);
+				fprintf(file, "%lf ;", getBiais(neurone));
+				for (int k = 0; k < couche->tailleTabw; k++)
+				{
+					fprintf(file, "%lf ;", getWeight(neurone, k));
+				}
+				fprintf(file, "\n");
+			}
 		}
 	}
 	fclose(file);
