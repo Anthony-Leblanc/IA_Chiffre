@@ -3,7 +3,7 @@
 /*
 Leblanc Anthony, Rousseau Alex
 
-Dernière modification : 28/05/2021
+Dernière modification : 09/06/2021
 
 Projet : Intelligence artificielle
 Le but de ce projet est d'écrire un logiciel permettant de lire et reconnaître des chiffres dans des images.
@@ -22,7 +22,7 @@ Ce fichier est le programme contenant les fonctions de manipulation des fichiers
 
 // Fonction permettant de lire dans le fichier file l'intégralité d'une ligne et de la retourner dans un tableau de caractères alloué dynamiquement
 char* getLine(FILE* file)
-{
+{/*
   char* str = NULL, * more_str = NULL;
   char buffer[MAX_STR] = "";
   unsigned int taille = 0, tempo_taille = 0;
@@ -31,7 +31,7 @@ char* getLine(FILE* file)
   {
     tempo_taille = taille;
     taille += strlen(buffer);
-    more_str = (char*)realloc(str, taille * sizeof(char));
+    more_str = (char*)realloc(str, taille * sizeof(char) + 1);
 
     // Test de l'allocation
     if (more_str != NULL) {
@@ -54,6 +54,73 @@ char* getLine(FILE* file)
   }
 
   return str;
+  */
+  // Fonction provenant de hackerrank 
+  /*
+  size_t alloc_length = 1024;
+  size_t data_length = 0;
+
+  char* data = malloc(alloc_length);
+
+  while (1) {
+    char* cursor = data + data_length;
+    char* line = fgets(cursor, alloc_length - data_length, file);
+
+    if (!line) {
+      break;
+    }
+
+    data_length += strlen(cursor);
+
+    if (data_length < alloc_length - 1 || data[data_length - 1] == '\n') {
+      break;
+    }
+
+    alloc_length <<= 1;
+
+    data = realloc(data, alloc_length);
+
+    if (!data) {
+      data = '\0';
+
+      break;
+    }
+  }
+
+  if (data[data_length - 1] == '\n') {
+    data[data_length - 1] = '\0';
+
+    data = realloc(data, data_length);
+
+    if (!data) {
+      data = '\0';
+    }
+  }
+  else {
+    data = realloc(data, data_length + 1);
+
+    if (!data) {
+      data = '\0';
+    }
+    else {
+      data[data_length] = '\0';
+    }
+  }
+
+  return data;
+  // Fin de la fonction provenant de hackerrank
+  */
+  
+  char* str = NULL;
+  str = (char*)calloc(TAILLE_MAX, sizeof(char));
+  fgets(str, TAILLE_MAX, file);
+  if(str != NULL)
+    return str;
+  else {
+    puts("Error getLine\n");
+    return NULL;
+  }
+  
 }
 
 
