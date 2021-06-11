@@ -47,7 +47,6 @@ typedef struct _NETWORK
   LIST_LAYER list_layer;
 }NETWORK;
 
-//void load_neuralNetwork(FILE* stream, NETWORK* network);
 
 void printNEURONE(NEURONE neurone, int taille);
 void printCouche(COUCHE couche);
@@ -61,6 +60,9 @@ void setWeight(NEURONE* neurone, double weight, int n);
 void setTailleTabw(COUCHE* couche, int nbrNeurone);
 void setNeurone(COUCHE* couche,NEURONE* neurone);
 
+void appendToNetwork(NETWORK* network, COUCHE layer);
+
 void save_neuralNetwork(NETWORK* network);
+NETWORK* load_neuralNetwork(FILE* stream);
 
 #endif

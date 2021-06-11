@@ -114,8 +114,12 @@ char* getLine(FILE* file)
   char* str = NULL;
   str = (char*)calloc(TAILLE_MAX, sizeof(char));
   fgets(str, TAILLE_MAX, file);
-  if(str != NULL)
-    return str;
+  if (str != NULL)
+  {
+	  if (str[strlen(str)-1] == '\n')
+		str[strlen(str)-1] = '\0';
+	  return str;
+  }
   else {
     puts("Error getLine\n");
     return NULL;

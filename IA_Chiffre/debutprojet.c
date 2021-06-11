@@ -8,6 +8,7 @@ Dernière modification : 28/05/2021*/
 #include "debutprojet.h"
 #include "reseau.h"
 
+void test5(void);
 
 void test_Alex(void)
 {
@@ -15,6 +16,7 @@ void test_Alex(void)
   test2();
   test3();
   test4();
+  //test5();
 }
 
 void test1(void)  // test des fonctions get,set, initialiseWeight et printNeurone
@@ -207,4 +209,24 @@ void test4(void)
   printCouche(*network.list_layer.head->next->next);
   save_neuralNetwork(&network);
   printf("\nsauvegarde sur un fichier csv\n");
+}
+
+void test5(void)
+{
+  printf("****************************************************************************************************\n");
+  printf("TEST : load_neuralNetwork\n\n");
+
+  NETWORK* network = NULL;
+  FILE* stream = NULL;
+
+  stream = fopen("network_30_10.csv", "r");
+  if (stream == NULL)
+  {
+    puts("Error openning stream");
+    exit(1);
+  }
+
+  network = load_neuralNetwork(stream);
+  fclose(stream);
+  save_neuralNetwork(network);
 }

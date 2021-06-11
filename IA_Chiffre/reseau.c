@@ -4,13 +4,14 @@
 
 #include<stdio.h> /*printf,fopen*/
 #include<stdlib.h>/*calloc*/
+#include <string.h> /*strtok*/
 #include "reseau.h"
+#include "csv_image.h"
 
 
 
 void printNEURONE(NEURONE neurone, int taille) //affiche tout un neurone (la taille est nécessaire pour le tableau de weight alloué dynamiquement)
 {
-
 	printf("Biais : %lf Weight :", getBiais(&neurone));
 	int i = 0;
 	while (i < taille )
@@ -23,23 +24,22 @@ void printNEURONE(NEURONE neurone, int taille) //affiche tout un neurone (la tai
 
 void printCouche(COUCHE couche)
 {
-	if (couche.neurone.head == NULL)
+	if (couche.neurone.tail == NULL)
 	{
 		printf("\nListe vide\n"); // liste vide on indique une liste vide puis on sort de la fonction 
 		exit(1);
 	}
 	NEURONE *neurone = NULL; // sinon on crée un pointeur null
 	int i = 0;
-	do
+	while(1)
 	{
-		neurone = getNeurone(&couche,i); // je récupère le neurone numéro i
+		neurone = getNeurone(&couche, i);
+		if (neurone == NULL)
+			break;
 		printf("\nneurone %d \n", i);
 		printNEURONE(*neurone, couche.tailleTabw);// je l'affiche
 		i++;
-	} while (neurone->next != couche.neurone.tail && neurone != couche.neurone.tail);
-	neurone = getNeurone(&couche, i);//on est à la fin j'affiche le dernier neurone
-	printf("\nneurone %d \n", i);
-	printNEURONE(*neurone, couche.tailleTabw);
+	}
 }
 
 double getBiais(NEURONE* neurone) // obtient le biais d'un neurone 
@@ -99,24 +99,43 @@ void setTailleTabw(COUCHE* couche, int tailleTabw)//atribue la taille des tablea
 	couche->tailleTabw = tailleTabw;
 }
 
-void setNeurone(COUCHE* couche,NEURONE* neurone) // attibue un neurone => set neurone et append to list en même temps 
+void setNeurone(COUCHE* couche,NEURONE *neurone) // attibue un neurone => set neurone et append to list en même temps 
 {
+  NEURONE *neuronebis = calloc(1,sizeof(NEURONE));
+  *neuronebis = *neurone;
 	if (couche->neurone.tail == NULL)
 	{
-		couche->neurone.head = neurone;
-		couche->neurone.tail = neurone;
-		neurone->prev = NULL;
-		neurone->next = NULL;
+		couche->neurone.head = neuronebis;
+		couche->neurone.tail = neuronebis;
+		neuronebis->prev = NULL;
+		neuronebis->next = NULL;
 	}
 	else
 	{
-		couche->neurone.tail->next = neurone;
-		neurone->prev = couche->neurone.tail;
-		couche->neurone.tail = neurone;
+		couche->neurone.tail->next = neuronebis;
+		neuronebis->prev = couche->neurone.tail;
+		couche->neurone.tail = neuronebis;
+		neuronebis->next = NULL;
 	}
 }
 
-
+void appendToNetwork(NETWORK* network, COUCHE *layer)
+{
+  COUCHE* couche = calloc(1, sizeof(COUCHE));
+  *couche = *layer;
+  if (network->list_layer.tail == NULL) // Cas de la liste vide
+  {
+    network->list_layer.head = couche;
+    network->list_layer.tail = couche;
+  }
+  else // S'il existe déjà un élément dans la liste
+  {
+    network->list_layer.tail->next = couche;
+    couche->prev = network->list_layer.tail;
+    couche->next = NULL;
+    network->list_layer.tail = couche;
+  }
+}
 
 void save_neuralNetwork(NETWORK* network)
 {
@@ -124,7 +143,7 @@ void save_neuralNetwork(NETWORK* network)
 	FILE* file = fopen(name, "w");// on crée un fichier csv ou suavegarder les couches 
 	if (file == NULL)
 	{
-		printf("Error could not open %s\n", name);// si le fichier n'est pas on quitte 
+		printf("\nError could not open %s\n", name);// si le fichier n'est pas on quitte 
 		exit(1);
 	}
 	int nbrCouche=0;
@@ -196,3 +215,59 @@ void save_neuralNetwork(NETWORK* network)
 	}
 	fclose(file);
 }
+
+
+NETWORK* load_neuralNetwork(FILE* stream)
+{
+	NETWORK* network = (NETWORK*)calloc(1, sizeof(NETWORK));
+	char* str = NULL;
+	//LIST_LAYER list_layer = { NULL };
+
+	str = getLine(stream);
+
+	if (str == NULL)
+	{
+		puts("The neural network file is empty");
+		return network;
+	}
+
+	while (str != NULL && str[0] != '\0' && str != "") // On parcourt l'ensemble du fichier
+	{
+		COUCHE couche = { NULL };
+		int nbrWeight = 0, nbrNeurone = 0;
+		double value = 0.0;
+		char* pch = NULL;
+		// Étape 1 : reconnaître une COUCHE :
+		pch = strtok(str, ";"); nbrWeight = atoi(pch); // Le premier élément est le nombre de poids des neurones de la couche
+		pch = strtok(NULL, ";"); nbrNeurone = atoi(pch); // Le deuxième élément est le nombre de neurone de la couche
+    setTailleTabw(&couche, nbrWeight); // Initialisation du champ du nombre de poids dans des neuronnes de la couche
+
+		// Étape 2 : initialiser les neurones de la couche (et les y ajouter)
+		for (int i = 0; i < nbrNeurone; i++) // Parcours des neurones
+		{
+			NEURONE neurone = { 0.0, };
+			neurone.weight = initialiseWeight(nbrWeight); // On alloue la mémoire nécessaire au poids des neurones de la couche
+			str = getLine(stream); // On récupère les infos du neurone
+			pch = strtok(str, ";"); value = strtod(pch, NULL);
+			setBiais(&neurone, value); // On écrit la valeur du biais du neuronne
+
+			for (int j = 0; j < nbrWeight; j++) // Il faut maintenant enregistrer les poids du neurone
+			{
+				pch = strtok(NULL, ";"); value = strtod(pch, NULL);
+				setWeight(&neurone, value, j); // On enregistre le poids "j"
+			}
+			setNeurone(&couche, &neurone);  
+		}
+
+		// Étape 3 : on ajoute la couche à la liste de couche
+    appendToNetwork(network, &couche);
+		str = getLine(stream); // On prend un nouvelle ligne, permet aussi de vérifier la condition du while
+	}
+
+	// Étape 4 : ajout de la liste de couche dans le réseau de neurones
+	//network->list_layer = list_layer;
+	return network;
+}
+
+// Fin d'ajout
+//****************************************************************************************************
