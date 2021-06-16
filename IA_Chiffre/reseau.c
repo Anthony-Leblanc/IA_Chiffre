@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-/*dernière modification 28/05/2021,LEBLANC Anthony,ROUSSEAU Alex*/
+/*dernière modification 16/06/2021,LEBLANC Anthony,ROUSSEAU Alex*/
 
 
 #include<stdio.h> /*printf,fopen*/
@@ -137,13 +137,12 @@ void appendToNetwork(NETWORK* network, COUCHE *layer)
   }
 }
 
-void save_neuralNetwork(NETWORK* network)
+void save_neuralNetwork(NETWORK* network,char* fileName)
 {
-	char name[] = "neuralNetwork2.csv";
-	FILE* file = fopen(name, "w");// on crée un fichier csv ou suavegarder les couches 
+	FILE* file = fopen(fileName, "w");// on crée un fichier csv ou suavegarder les couches 
 	if (file == NULL)
 	{
-		printf("\nError could not open %s\n", name);// si le fichier n'est pas on quitte 
+		printf("\nError could not open %s\n", fileName );// si le fichier n'est pas on quitte 
 		exit(1);
 	}
 	int nbrCouche=0;

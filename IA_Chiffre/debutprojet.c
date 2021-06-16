@@ -3,7 +3,7 @@
 /*
 Leblanc Anthony, Rousseau Alex
 
-Dernière modification : 28/05/2021*/
+Dernière modification : 16/06/2021*/
 
 #include "debutprojet.h"
 #include "reseau.h"
@@ -207,7 +207,7 @@ void test4(void)
   network.list_layer.tail = &couche2;
   printf("\n\n");
   printCouche(*network.list_layer.head->next->next);
-  save_neuralNetwork(&network);
+  save_neuralNetwork(&network,"neuralNetwork2.csv");
   printf("\nsauvegarde sur un fichier csv\n");
 }
 
@@ -228,5 +228,5 @@ void test5(void)
 
   network = load_neuralNetwork(stream);
   fclose(stream);
-  save_neuralNetwork(network);
+  save_neuralNetwork(network, "neuralNetwork2.csv");
 }

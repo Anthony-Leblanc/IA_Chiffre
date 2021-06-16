@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _reseau_h_ // Si la constante n'a pas été définie le fichier n'a jamais été inclus
 #define _reseau_h_ // On définit la constante pour que la prochaine fois le fichier ne soit plus inclus
-// dernière modification 28/05/2021 Anthony Leblanc, Alex ROUSSEAU
+// dernière modification 16/06/2021 Anthony Leblanc, Alex ROUSSEAU
 
 /*
 Définition des structures des réseaux de neuronnes
@@ -60,9 +60,9 @@ void setWeight(NEURONE* neurone, double weight, int n);
 void setTailleTabw(COUCHE* couche, int nbrNeurone);
 void setNeurone(COUCHE* couche,NEURONE* neurone);
 
-void appendToNetwork(NETWORK* network, COUCHE layer);
+void appendToNetwork(NETWORK* network, COUCHE* layer);
 
-void save_neuralNetwork(NETWORK* network);
+void save_neuralNetwork(NETWORK* network, char* fileName);
 NETWORK* load_neuralNetwork(FILE* stream);
 
 #endif
