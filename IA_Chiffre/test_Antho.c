@@ -3,7 +3,7 @@
 /*
 Leblanc Anthony, Rousseau Alex
 
-Dernière modification : 09/06/2021
+Dernière modification : 16/06/2021
 
 Projet : Intelligence artificielle
 Le but de ce projet est d'écrire un logiciel permettant de lire et reconnaître des chiffres dans des images.
@@ -31,7 +31,8 @@ void test_Antho(void)
   //test_loadImage(); // Fonctionne comme souhaité
   //test_saveBMP(); // Fonctionne comme souhaité
   //test_load_dataBase(); // Fonctionne comme souhaité
-  test_load_neuralNetwork(); // En cours d'étude
+  //test_load_neuralNetwork(); // Semble fonctionné comme souhaité (ordinateur maison)
+  test_feedforward(); // En cours d'étude
 }
 
 
@@ -207,7 +208,7 @@ void test_load_dataBase(void)
   printf("****************************************************************************************************\n");
 }
 
-// Fonction de teste de la fonction load_neuralNetwork
+// Fonction de test de la fonction load_neuralNetwork
 void test_load_neuralNetwork(void)
 {
   printf("****************************************************************************************************\n");
@@ -231,11 +232,70 @@ void test_load_neuralNetwork(void)
   printf("****************************************************************************************************\n");
 }
 
-//****************************************************************************************************
-// A ajouter à reseau.h
+// Fonction de test de la fonction feedforward
+void test_feedforward(void)
+{
+  printf("****************************************************************************************************\n");
+  printf("TEST : feedforward\n\n");
 
-// Fonction permettant d'initialiser un réseau de neuronnes à partir d'un fichier
-// Bibliothèques à inclure :
-//#include <stdio.h> /*puts*/
-//#include <string.h> /*strtok*/
-//#include <stdlib.h> /*atoi, strtod*/
+  FILE* file_neural_network = NULL;
+  file_neural_network = fopen("network_30_10.csv", "r");
+  if (file_neural_network == NULL) {
+    puts("\nError openning stream\n");
+    exit(1);
+  }
+  NETWORK* network = NULL;
+  network = load_neuralNetwork(file_neural_network);
+  fclose(file_neural_network);
+  FILE* data_base = NULL;
+  data_base = fopen("images_data.csv", "r");
+  if (data_base == NULL) {
+    puts("\nError openning stream\n");
+    exit(1);
+  }
+  unsigned int width = 0, height = 0, nbrImages = 0;
+  nbrImages = parametersImages(data_base, &width, &height);
+  // On cherche le nombre de neurones de la dernière couche
+  COUCHE* couche = NULL;
+  couche = network->list_layer.tail;
+  if (couche == NULL) {
+    puts("\nReseau vide\n");
+    exit(1);
+  }
+  if (couche->neurone.tail == NULL) {
+    puts("\nCouche vide");
+    exit(1);
+  }
+  unsigned int nbr_neural_last_layer = 0;
+  NEURONE* neurone = NULL;
+  for (neurone = couche->neurone.head; neurone->next != NULL; neurone = neurone->next)
+    nbr_neural_last_layer++;
+
+  double succes_rate = 0.0;
+
+  // On test la sortie du réseau pour chaque image
+  for (int i = 0; i < nbrImages; i++)
+  {
+    unsigned char* image = NULL;
+    int number = 0, number_output = -1;
+    double* output = NULL, compare_output = 0.0;
+    image = loadImage(&number, width, height, data_base);
+    fclose(data_base);
+    output = feedforward(*network, image);
+    // On récupère la sortie du réseau de neurones 
+    for (int j = 0; j < nbr_neural_last_layer; j++)
+    {
+      if (output[j] > compare_output)
+      {
+        compare_output = output[j];
+        number_output = j;
+      }
+    }
+    if (number == number_output)
+      succes_rate++;
+  }
+  printf("\nTaux de succes du reseau de neurones : %f%", (succes_rate / nbrImages) * 100);
+
+  printf("\n\nFIN DE TEST\n");
+  printf("****************************************************************************************************\n");
+}

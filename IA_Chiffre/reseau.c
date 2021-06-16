@@ -5,6 +5,7 @@
 #include<stdio.h> /*printf,fopen*/
 #include<stdlib.h>/*calloc*/
 #include <string.h> /*strtok*/
+#include <math.h>	/*exp*/
 #include "reseau.h"
 #include "csv_image.h"
 
@@ -82,7 +83,6 @@ NEURONE* getNeurone(COUCHE* couche, int n) // obtenir le neurone position n dans
 	}
 	return neurone;
 }
-
 
 void setBiais(NEURONE* neurone, double biais) // attribue le biais d'un neurone
 {
@@ -215,7 +215,6 @@ void save_neuralNetwork(NETWORK* network,char* fileName)
 	fclose(file);
 }
 
-
 NETWORK* load_neuralNetwork(FILE* stream)
 {
 	NETWORK* network = (NETWORK*)calloc(1, sizeof(NETWORK));
@@ -268,5 +267,78 @@ NETWORK* load_neuralNetwork(FILE* stream)
 	return network;
 }
 
-// Fin d'ajout
-//****************************************************************************************************
+double* feedforward(NETWORK network, unsigned char* in) 
+{
+	if (network.list_layer.tail == NULL) {
+		puts("\nLe reseau de neuronne est vide\n");
+		exit(1);
+	}
+	COUCHE* layer = NULL;
+	layer = (COUCHE*)malloc(1, sizeof(COUCHE));
+	if (layer == NULL) {
+		puts("\nError (re)allocating memory\n");
+		exit(1);
+	}
+	// On parcourt l'ensemble des couches du réseau de neuronnes
+	for (layer = network.list_layer.head; layer->next != NULL; layer = layer->next) { 
+		// Si c'est la première couche alors l'entrée est le tableau correspondant à l'image
+		if (layer = network.list_layer.head) { 
+			// On initialise l'entrée du réseau de neuronne
+			for (int i = 0; i < layer->tailleTabw; i++)
+				layer->in[i] = in[i];
+
+		}
+		// On parcourt l'ensemble des neuronnes 
+		NEURONE* neurone = NULL;
+		neurone = (NEURONE*)malloc(1, sizeof(NEURONE));
+		if (neurone == NULL) {
+			puts("\nError (re)allocating memory\n");
+			exit(1);
+		}
+		if (layer->neurone.tail == NULL) {
+			puts("\nCouche vide\n");
+			exit(1);
+		}
+		if (layer != network.list_layer.tail)
+		{
+			// On parcourt l'ensemble des neuronnes de la couche tant que celle-ce n'est pas la queue de la liste de couche
+			for (neurone = layer->neurone.head; neurone->next != NULL; neurone = neurone->next) {
+				double output_layer = 0.0;
+				int cmpt = 0;
+				// On regarde l'importance des poids des entrées
+				for (int i = 0; i < layer->tailleTabw; i++)
+					output_layer += *layer->in[i] * neurone->weight[i];
+
+				neurone->out = 1 / (1 + exp(-output_layer - neurone->biais));
+				*layer->out[cmpt] = neurone->out; // On enregistre les sorties de la couche
+				// On enregistre les entrée de la couche suivante
+				*layer->next->in[cmpt] = *layer->out[cmpt];
+				cmpt++;
+			}
+		}
+		else
+		{
+			// On parcourt l'ensemble des neuronnes de la couche tant que celle-ce n'est pas la queue de la liste de couche
+			double* output = NULL; // Tableau de sortie du réseau de neuronne
+			output = (double*)malloc(layer->tailleTabw, sizeof(double));
+			if (output == NULL) {
+				puts("\nError (re)allocating memory\n");
+				exit(1);
+			}
+			for (neurone = layer->neurone.head; neurone->next != NULL; neurone = neurone->next) {
+				double output_layer = 0.0;
+				int cmpt = 0;
+				// On regarde l'importance des poids des entrées
+				for (int i = 0; i < layer->tailleTabw; i++)
+					output_layer += *layer->in[i] * neurone->weight[i];
+
+				output_layer = 1 / (1 + exp(-output_layer - neurone->biais));
+				neurone->out = output_layer;
+				*layer->out[cmpt] = neurone->out; // On enregistre les sorties de la couche
+				output[cmpt] = output_layer;
+				cmpt++;
+			}
+			return output;
+		}
+	}
+}

@@ -14,6 +14,7 @@ Définition des structures des réseaux de neuronnes
 typedef struct _NEURONE
 {
   double biais;
+  double out;
   double* weight;
   struct _NEURONE* next;
   struct _NEURONE* prev;
@@ -64,5 +65,7 @@ void appendToNetwork(NETWORK* network, COUCHE* layer);
 
 void save_neuralNetwork(NETWORK* network, char* fileName);
 NETWORK* load_neuralNetwork(FILE* stream);
+
+double* feedforward(NETWORK network, unsigned char* in);
 
 #endif

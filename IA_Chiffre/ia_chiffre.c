@@ -3,7 +3,7 @@
 /*
 Leblanc Anthony, Rousseau Alex
 
-Dernière modification : 07/05/2021
+Dernière modification : 16/06/2021
 
 Projet : Intelligence artificielle
 Le but de ce projet est d'écrire un logiciel permettant de lire et reconnaître des chiffres dans des images.
@@ -24,7 +24,7 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 
 int main(int argc, char argv[])
 {
-  test_Alex();
+  //test_Alex();
   printf("\n\n\n");
   test_Antho();
 
