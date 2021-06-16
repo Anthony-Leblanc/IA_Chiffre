@@ -26,6 +26,7 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 
 void test_Antho(void)
 {
+  //test();
   //test_GetLine(); // Fonctionne comme souhaité
   //test_parametersImages(); // Fonctionne comme souhaité
   //test_loadImage(); // Fonctionne comme souhaité
@@ -276,8 +277,8 @@ void test_feedforward(void)
   // On test la sortie du réseau pour chaque image
   for (int i = 0; i < nbrImages; i++)
   {
-    unsigned char* image = NULL;
-    int number = 0, number_output = -1;
+    char* image = NULL;
+    unsigned char number = 0, number_output = -1;
     double* output = NULL, compare_output = 0.0;
     image = loadImage(&number, width, height, data_base);
     output = feedforward(*network, image);
@@ -295,6 +296,37 @@ void test_feedforward(void)
   }
   fclose(data_base);
   printf("\nTaux de succes du reseau de neurones : %f%", (succes_rate / nbrImages) * 100);
+
+  printf("\n\nFIN DE TEST\n");
+  printf("****************************************************************************************************\n");
+}
+
+// Fonction pour de simple test de débogage
+void test(void)
+{
+  printf("****************************************************************************************************\n");
+  printf("TEST : test\n\n");
+
+  FILE* database = NULL;
+  database = fopen("images_data.csv", "r");
+  if (database == NULL) {
+    puts("Impossble d'ouvrir le fichier");
+    exit(1);
+  }
+  unsigned int width = 0, height = 0, nbrImages = 0;
+  nbrImages = parametersImages(database, &width, &height);
+  for (int i = 0; i < nbrImages; i++) {
+    char* str = NULL;
+    unsigned char number = 0;
+    str = loadImage(&number, width, height, database);
+    printf("Nombre = %d\nimage : \n", number);
+    for (unsigned int i = 0; i < width * height; i++)
+    {
+      printf("%d ", str[i]);
+    }
+    printf("\n\n");
+  }
+  fclose(database);
 
   printf("\n\nFIN DE TEST\n");
   printf("****************************************************************************************************\n");

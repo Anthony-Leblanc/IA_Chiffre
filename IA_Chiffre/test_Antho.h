@@ -19,6 +19,7 @@ void test_saveBMP(void);
 void test_load_dataBase(void);
 void test_load_neuralNetwork(void);
 void test_feedforward(void);
+void test(void);
 
 NETWORK* load_neuralNetwork(FILE* stream);
 
