@@ -280,7 +280,6 @@ void test_feedforward(void)
     int number = 0, number_output = -1;
     double* output = NULL, compare_output = 0.0;
     image = loadImage(&number, width, height, data_base);
-    fclose(data_base);
     output = feedforward(*network, image);
     // On récupère la sortie du réseau de neurones 
     for (int j = 0; j < nbr_neural_last_layer; j++)
@@ -294,6 +293,7 @@ void test_feedforward(void)
     if (number == number_output)
       succes_rate++;
   }
+  fclose(data_base);
   printf("\nTaux de succes du reseau de neurones : %f%", (succes_rate / nbrImages) * 100);
 
   printf("\n\nFIN DE TEST\n");
