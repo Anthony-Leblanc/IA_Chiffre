@@ -32,8 +32,8 @@ typedef struct _COUCHE
   int tailleTabw;
   struct _COUCHE* next;
   struct _COUCHE* prev;
-  double **in;
-  double **out;
+  double *in;
+  double *out;
 
 }COUCHE;
 
