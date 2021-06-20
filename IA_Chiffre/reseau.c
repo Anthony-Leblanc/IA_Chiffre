@@ -266,7 +266,7 @@ NETWORK* load_neuralNetwork(FILE* stream)
 	//network->list_layer = list_layer;
 	return network;
 }
-
+/*
 double* feedforward(NETWORK network, unsigned char* in) 
 {
 	if (network.list_layer.tail == NULL) {
@@ -342,3 +342,4 @@ double* feedforward(NETWORK network, unsigned char* in)
 		}
 	}
 }
+*/

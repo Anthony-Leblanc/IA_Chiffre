@@ -33,7 +33,7 @@ void test_Antho(void)
   //test_saveBMP(); // Fonctionne comme souhaité
   //test_load_dataBase(); // Fonctionne comme souhaité
   //test_load_neuralNetwork(); // Semble fonctionné comme souhaité (ordinateur maison)
-  test_feedforward(); // En cours d'étude
+  //test_feedforward(); // En cours d'étude
 }
 
 
@@ -234,6 +234,7 @@ void test_load_neuralNetwork(void)
 }
 
 // Fonction de test de la fonction feedforward
+/*
 void test_feedforward(void)
 {
   printf("****************************************************************************************************\n");
@@ -300,6 +301,7 @@ void test_feedforward(void)
   printf("\n\nFIN DE TEST\n");
   printf("****************************************************************************************************\n");
 }
+*/
 
 // Fonction pour de simple test de débogage
 void test(void)

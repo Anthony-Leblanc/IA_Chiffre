@@ -229,4 +229,7 @@ void test5(void)
   network = load_neuralNetwork(stream);
   fclose(stream);
   save_neuralNetwork(network, "neuralNetwork2.csv");
+
+  printf("\n\nFIN DE TEST\n");
+  printf("****************************************************************************************************\n");
 }
