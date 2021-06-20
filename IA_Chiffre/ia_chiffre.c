@@ -24,7 +24,7 @@ Ce fichier est le programme principale, permettant de tester les fonctions et d'
 
 int main(int argc, char argv[])
 {
-  test_Alex();
+  //test_Alex();
   printf("\n\n\n");
   test_Antho();
 

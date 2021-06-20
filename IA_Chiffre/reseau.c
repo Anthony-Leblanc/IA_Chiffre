@@ -157,7 +157,7 @@ void save_neuralNetwork(NETWORK* network,char* fileName)
 	
 	nbrCouche++;
 	couche = network->list_layer.head; // on commence du début
-	printf("\nnbr couche =%d", nbrCouche+1);
+	//printf("\nnbr couche =%d", nbrCouche+1);
 	for (int j = 0; j <= nbrCouche; j++) // tant que l'on a pas fait toutes les couches
 	{
 		if(j ==0)// pour la premiere couche
@@ -173,15 +173,16 @@ void save_neuralNetwork(NETWORK* network,char* fileName)
 				NbrNerone++; // je compte le neurone i
 			}
 			NbrNerone++; // car on compte pas le dernier neurone
-			fprintf(file, "%d ; %d\n", taillew, NbrNerone); // Première ligne qui renvoie la taille du tableau weight et le nombre de neurone
+			fprintf(file, "%d;%d\n", taillew, NbrNerone); // Première ligne qui renvoie la taille du tableau weight et le nombre de neurone
 			for (int i = 0; i < NbrNerone; i++)// ici renvoie sur le fichier en premier le biais puis tous les weights
 			{
 				neurone = getNeurone(network->list_layer.head, i);
-				fprintf(file, "%lf ;", getBiais(neurone));
-				for (int k = 0; k < network->list_layer.head->tailleTabw; k++)
+				fprintf(file, "%lf;", getBiais(neurone));
+				for (int k = 0; k < network->list_layer.head->tailleTabw - 1; k++)
 				{
-					fprintf(file, "%lf ;", getWeight(neurone, k));
+					fprintf(file, "%lf;", getWeight(neurone, k));
 				}
+				fprintf(file, "%lf", getWeight(neurone, network->list_layer.head->tailleTabw - 1));
 				fprintf(file, "\n");
 			}
 		}
@@ -199,15 +200,16 @@ void save_neuralNetwork(NETWORK* network,char* fileName)
 				NbrNerone++; // je compte le neurone i
 			}
 			NbrNerone++; // car on compte pas le dernier neurone
-			fprintf(file, "%d ; %d\n", taillew, NbrNerone); // Première ligne qui renvoie la taille du tableau weight et le nombre de neurone
+			fprintf(file, "%d;%d\n", taillew, NbrNerone); // Première ligne qui renvoie la taille du tableau weight et le nombre de neurone
 			for (int i = 0; i < NbrNerone; i++)// ici renvoie sur le fichier en premier le biais puis tous les weights
 			{
 				neurone = getNeurone(couche, i);
-				fprintf(file, "%lf ;", getBiais(neurone));
-				for (int k = 0; k < couche->tailleTabw; k++)
+				fprintf(file, "%lf;", getBiais(neurone));
+				for (int k = 0; k < couche->tailleTabw - 1; k++)
 				{
-					fprintf(file, "%lf ;", getWeight(neurone, k));
+					fprintf(file, "%lf;", getWeight(neurone, k));
 				}
+				fprintf(file, "%lf", getWeight(neurone, couche->tailleTabw - 1));
 				fprintf(file, "\n");
 			}
 		}
@@ -266,6 +268,7 @@ NETWORK* load_neuralNetwork(FILE* stream)
 	//network->list_layer = list_layer;
 	return network;
 }
+
 /*
 double* feedforward(NETWORK network, unsigned char* in) 
 {

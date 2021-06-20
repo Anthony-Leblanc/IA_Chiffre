@@ -32,7 +32,7 @@ void test_Antho(void)
   //test_loadImage(); // Fonctionne comme souhaité
   //test_saveBMP(); // Fonctionne comme souhaité
   //test_load_dataBase(); // Fonctionne comme souhaité
-  //test_load_neuralNetwork(); // Semble fonctionné comme souhaité (ordinateur maison)
+  test_load_neuralNetwork(); // Semble fonctionné comme souhaité (ordinateur maison)
   //test_feedforward(); // En cours d'étude
 }
 
@@ -227,7 +227,7 @@ void test_load_neuralNetwork(void)
 
   network = load_neuralNetwork(stream);
   fclose(stream);
-  printCouche(*network->list_layer.head);
+  save_neuralNetwork(network, "test_load_neural_network.csv");
 
   printf("\n\nFIN DE TEST\n");
   printf("****************************************************************************************************\n");
